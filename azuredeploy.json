@@ -131,10 +131,10 @@
             "type": "string"
         },
         "sshPublicKey": {
+            "type": "securestring",
             "metadata": {
-                "description": "ssh public key"
-            },
-            "type": "string"
+                "description": "SSH Key or password for the Virtual Machine. SSH key is recommended."
+            }
         },
         "sshUsername": {
             "defaultValue": "azureadmin",
@@ -1434,7 +1434,18 @@
             "vpnType": "[parameters('vpnType')]",
             "webServerSetupScriptFilename": "setup_webserver.sh",
             "webServerType": "[parameters('webServerType')]",
-            "isMigration": "[parameters('isMigration')]"
+            "isMigration": "[parameters('isMigration')]",
+            "linuxConfiguration": {
+            "disablePasswordAuthentication": true,
+             "ssh": {
+                "publicKeys": [
+                    {
+                        "path": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
+                        "keyData": "[parameters('adminPasswordOrKey')]"
+                    }
+                ]
+            }
+        },
         },
         "certUrlArray": [
             {
